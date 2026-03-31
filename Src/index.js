@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from "dotenv";
+import job from "./lib/cron.js";
 
 import authRoutes from "./routes/authRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
@@ -12,6 +13,8 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+job.start(); // Start the cron job
 
 app.use(express.json()); // Middleware to parse JSON bodies
 app.use(cors()); // Enable CORS for all routes
