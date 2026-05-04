@@ -222,8 +222,14 @@ export default function ManageBookScreen() {
     const trimmedTitle = title.trim();
     const trimmedAuthor = author.trim();
     const trimmedDescription = description.trim();
+    const trimmedPrice = price.trim();
     if (!trimmedTitle || !trimmedAuthor || !trimmedDescription) {
       Alert.alert("Error", "Please provide title, author and description");
+      return;
+    }
+
+    if (!trimmedPrice) {
+      Alert.alert("Error", "Please provide a price");
       return;
     }
 
@@ -236,11 +242,8 @@ export default function ManageBookScreen() {
       title: trimmedTitle,
       author: trimmedAuthor,
       description: trimmedDescription,
+      price: trimmedPrice,
     };
-
-    if (price.trim() !== "") {
-      payload.price = price.trim();
-    }
 
     if (categoryTouched) {
       if (selectedCategoryId) {
@@ -404,7 +407,7 @@ export default function ManageBookScreen() {
           </View>
 
           <View style={styles.inputGroup}>
-            <Text style={styles.label}>Price (optional)</Text>
+            <Text style={styles.label}>Price</Text>
             <TextInput
               style={styles.input}
               value={price}

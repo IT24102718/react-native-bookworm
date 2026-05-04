@@ -214,12 +214,13 @@ export const createBook = async (req, res) => {
       return res.status(500).json({ message: "Cloudinary is not configured on server" });
     }
 
-    let parsedPrice = null;
-    if (price !== undefined && price !== null && price !== "") {
-      parsedPrice = Number(price);
-      if (Number.isNaN(parsedPrice) || parsedPrice < 0) {
-        return res.status(400).json({ message: "Price must be a non-negative number" });
-      }
+    if (price === undefined || price === null || price === "") {
+      return res.status(400).json({ message: "Price is required" });
+    }
+
+    const parsedPrice = Number(price);
+    if (Number.isNaN(parsedPrice) || parsedPrice < 0) {
+      return res.status(400).json({ message: "Price must be a non-negative number" });
     }
 
     let parsedStockQuantity;
@@ -309,15 +310,15 @@ export const updateBook = async (req, res) => {
 
     if (price !== undefined) {
       if (price === null || price === "") {
-        book.price = null;
-      } else {
-        const parsedPrice = Number(price);
-        if (Number.isNaN(parsedPrice) || parsedPrice < 0) {
-          return res.status(400).json({ message: "Price must be a non-negative number" });
-        }
-
-        book.price = parsedPrice;
+        return res.status(400).json({ message: "Price is required" });
       }
+
+      const parsedPrice = Number(price);
+      if (Number.isNaN(parsedPrice) || parsedPrice < 0) {
+        return res.status(400).json({ message: "Price must be a non-negative number" });
+      }
+
+      book.price = parsedPrice;
     }
 
     if (stockQuantity !== undefined) {
